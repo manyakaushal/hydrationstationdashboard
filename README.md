@@ -27,3 +27,7 @@ The project is organized into the following directories:
 - **package.json**: Lists project dependencies and scripts.
 - **tsconfig.json**: TypeScript configuration.
 - **tailwind.config.ts**: Configuration for Tailwind CSS, used for styling.
+
+## Tools
+- **Programming Langauges**: Typescript/Javascript, HTML, CSS, Next.js Framwork.
+- **Tools**: Chart.js for graphing, Websockets for connection to real time server.
