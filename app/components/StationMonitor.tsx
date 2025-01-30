@@ -32,7 +32,7 @@ function StationMonitor({ station }: { station: Station }) {
   });
 
   useEffect(() => {
-    const ws = new WebSocket('wss://a40gu1xmfa.execute-api.us-west-2.amazonaws.com/production/');
+    const ws = new WebSocket('wss://nmnz997m1a.execute-api.us-west-2.amazonaws.com/production/');
 
     ws.onopen = () => {
       ws.send(JSON.stringify({ action: 'selectMachine', machine_id: station.id }));
