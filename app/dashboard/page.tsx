@@ -9,7 +9,6 @@ interface Station {
   name: string;
   bottlescleaned: number;
   soaplevel: number;
-  sanitation: number;
   numbottlesfilled: number;
 }
 
@@ -24,7 +23,6 @@ function Dashboard() {
       name: 'Hydration Station 1',
       bottlescleaned: 25,
       soaplevel: 12,
-      sanitation: 10,
       numbottlesfilled: 10
     },
     {
@@ -32,7 +30,6 @@ function Dashboard() {
       name: 'Hydration Station 2',
       bottlescleaned: 30,
       soaplevel: 8,
-      sanitation: 9,
       numbottlesfilled: 15
     },
     {
@@ -40,7 +37,6 @@ function Dashboard() {
       name: 'Hydration Station 3',
       bottlescleaned: 15,
       soaplevel: 10,
-      sanitation: 8,
       numbottlesfilled: 5
     },
     {
@@ -48,7 +44,6 @@ function Dashboard() {
       name: 'Hydration Station 4',
       bottlescleaned: 15,
       soaplevel: 10,
-      sanitation: 8,
       numbottlesfilled: 5
     },
     {
@@ -56,7 +51,6 @@ function Dashboard() {
       name: 'Hydration Station 5',
       bottlescleaned: 15,
       soaplevel: 10,
-      sanitation: 8,
       numbottlesfilled: 5
     }
   ];
@@ -83,7 +77,6 @@ function Dashboard() {
   return (
     <div>
       <Navbar stations={stations} onSelectStation={handleStationSelect} selectedStation={selectedStation} />
-      <StationMonitor station={selectedStation} />
     </div>
   );
 }

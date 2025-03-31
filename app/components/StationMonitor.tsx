@@ -28,7 +28,6 @@ function StationMonitor({ station }: { station: Station }) {
     soapLevel: 0,
     bottlesCleaned: 0,
     numBottlesFilled: 0,
-    sanitation: 0,
   });
 
   useEffect(() => {
@@ -128,8 +127,6 @@ function StationMonitor({ station }: { station: Station }) {
           <p>{latestValues.soapLevel*100}%</p>
         </div>
         <div className="p-4 bg-gray-100 rounded shadow">
-          <h3 className="font-semibold">Sanitation</h3>
-          <p>{latestValues.sanitation}</p>
         </div>
         <div className="p-4 bg-gray-100 rounded shadow">
           <h3 className="font-semibold">Bottles Filled</h3>
