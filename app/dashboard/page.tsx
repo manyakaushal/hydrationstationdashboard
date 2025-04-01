@@ -77,6 +77,7 @@ function Dashboard() {
   return (
     <div>
       <Navbar stations={stations} onSelectStation={handleStationSelect} selectedStation={selectedStation} />
+      <StationMonitor station={selectedStation} />
     </div>
   );
 }

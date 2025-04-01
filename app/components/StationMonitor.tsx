@@ -11,7 +11,6 @@ interface Station {
   name: string;
   bottlescleaned: number;
   soaplevel: number;
-  sanitation: number;
   numbottlesfilled: number;
 }
 
@@ -58,7 +57,7 @@ function StationMonitor({ station }: { station: Station }) {
         soapLevel: newData.find((data) => data.sensor_id === 1)?.value || 0,
         bottlesCleaned: newData.find((data) => data.sensor_id === 2)?.value || 0,
         numBottlesFilled: newData.find((data) => data.sensor_id === 3)?.value || 0,
-        sanitation: newData.find((data) => data.sensor_id === 4)?.value || 0,
+        //sanitation: newData.find((data) => data.sensor_id === 4)?.value || 0,
       };
       setLatestValues(latest);
     };
