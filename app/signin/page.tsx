@@ -79,7 +79,11 @@ function SignIn() {
               </button>
             </div>
           </form>
-          
+          <div className="divider">OR</div>
+          <div className="text-center">
+            <p>Don&apos;t have an account?</p>
+            <a href="#" className="link link-primary">Sign up now</a>
+          </div>
         </div>
       </div>
     </div>
