@@ -27,6 +27,7 @@ function StationMonitor({ station }: { station: Station }) {
     soapLevel: 0,
     bottlesCleaned: 0,
     numBottlesFilled: 0,
+    soapWeight: 0,
   });
 
   useEffect(() => {
@@ -57,6 +58,7 @@ function StationMonitor({ station }: { station: Station }) {
         soapLevel: newData.find((data) => data.sensor_id === 1)?.value || 0,
         bottlesCleaned: newData.find((data) => data.sensor_id === 2)?.value || 0,
         numBottlesFilled: newData.find((data) => data.sensor_id === 3)?.value || 0,
+        soapWeight: newData.find((data) => data.sensor_id === 4)?.value || 0,
         //sanitation: newData.find((data) => data.sensor_id === 4)?.value || 0,
       };
       setLatestValues(latest);
@@ -126,6 +128,8 @@ function StationMonitor({ station }: { station: Station }) {
           <p>{latestValues.soapLevel*100}%</p>
         </div>
         <div className="p-4 bg-gray-100 rounded shadow">
+        <h3 className="font-semibold">Soap Weight (grams)</h3>
+        <p>{latestValues.soapWeight}</p>
         </div>
         <div className="p-4 bg-gray-100 rounded shadow">
           <h3 className="font-semibold">Bottles Filled</h3>
