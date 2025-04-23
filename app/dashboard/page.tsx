@@ -7,9 +7,9 @@ import StationMonitor from '../components/StationMonitor';
 interface Station {
   id: number;
   name: string;
-  bottlescleaned: number;
+  totalWater: number;
   soaplevel: number;
-  numbottlesfilled: number;
+  totalEnergy: number;
 }
 
 function Dashboard() {
@@ -21,37 +21,37 @@ function Dashboard() {
     {
       id: 1,
       name: 'Hydration Station 1',
-      bottlescleaned: 25,
+      totalWater: 25,
       soaplevel: 12,
-      numbottlesfilled: 10
+      totalEnergy: 10
     },
     {
       id: 2,
       name: 'Hydration Station 2',
-      bottlescleaned: 30,
+      totalWater: 30,
       soaplevel: 8,
-      numbottlesfilled: 15
+      totalEnergy: 15
     },
     {
       id: 3,
       name: 'Hydration Station 3',
-      bottlescleaned: 15,
+      totalWater: 15,
       soaplevel: 10,
-      numbottlesfilled: 5
+      totalEnergy: 5
     },
     {
       id: 4,
       name: 'Hydration Station 4',
-      bottlescleaned: 15,
+      totalWater: 15,
       soaplevel: 10,
-      numbottlesfilled: 5
+      totalEnergy: 5
     },
     {
       id: 5,
       name: 'Hydration Station 5',
-      bottlescleaned: 15,
+      totalWater: 15,
       soaplevel: 10,
-      numbottlesfilled: 5
+      totalEnergy: 5
     }
   ];
 

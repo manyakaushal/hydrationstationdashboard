@@ -9,9 +9,9 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 interface Station {
   id: number;
   name: string;
-  bottlescleaned: number;
+  totalWater: number;
   soaplevel: number;
-  numbottlesfilled: number;
+  totalEnergy: number;
 }
 
 interface SensorData {
@@ -25,8 +25,8 @@ function StationMonitor({ station }: { station: Station }) {
   const [bottlesCleanedData, setBottlesCleanedData] = useState<SensorData[]>([]);
   const [latestValues, setLatestValues] = useState({
     soapLevel: 0,
-    bottlesCleaned: 0,
-    numBottlesFilled: 0,
+    totalWater: 0,
+    totalEnergy: 0,
     soapWeight: 0,
   });
 
@@ -56,8 +56,8 @@ function StationMonitor({ station }: { station: Station }) {
       // Update latest values
       const latest = {
         soapLevel: newData.find((data) => data.sensor_id === 1)?.value || 0,
-        bottlesCleaned: newData.find((data) => data.sensor_id === 2)?.value || 0,
-        numBottlesFilled: newData.find((data) => data.sensor_id === 3)?.value || 0,
+        totalWater: newData.find((data) => data.sensor_id === 2)?.value || 0,
+        totalEnergy: newData.find((data) => data.sensor_id === 3)?.value || 0,
         soapWeight: newData.find((data) => data.sensor_id === 4)?.value || 0,
         //sanitation: newData.find((data) => data.sensor_id === 4)?.value || 0,
       };
@@ -120,8 +120,8 @@ function StationMonitor({ station }: { station: Station }) {
       <h2 className="text-xl font-bold mb-4">{station.name}</h2>
       <div className="grid grid-cols-2 gap-4">
         <div className="p-4 bg-gray-100 rounded shadow">
-          <h3 className="font-semibold">Bottles Cleaned</h3>
-          <p>{latestValues.bottlesCleaned}</p>
+          <h3 className="font-semibold">Total Water Used</h3>
+          <p>{latestValues.totalWater}</p>
         </div>
         <div className="p-4 bg-gray-100 rounded shadow">
           <h3 className="font-semibold">Soap Level</h3>
@@ -132,8 +132,8 @@ function StationMonitor({ station }: { station: Station }) {
         <p>{latestValues.soapWeight}</p>
         </div>
         <div className="p-4 bg-gray-100 rounded shadow">
-          <h3 className="font-semibold">Bottles Filled</h3>
-          <p>{latestValues.numBottlesFilled}</p>
+          <h3 className="font-semibold">Total Energy Used</h3>
+          <p>{latestValues.totalEnergy}</p>
         </div>
       </div>
       <div className="mt-8">
