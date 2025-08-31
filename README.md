@@ -2,6 +2,7 @@
 
 ## Live Website 
 - URL: https://main.d30o46gfw7s3wg.amplifyapp.com
+- Alternative link: https://main.d1upgps64vlhwt.amplifyapp.com/
   
 **Login**:
 - Email: guy
