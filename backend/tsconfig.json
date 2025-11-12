@@ -46,6 +46,6 @@
     "moduleDetection": "force",
     "skipLibCheck": true,
   },
-  "include": ["src", "prisma"],
+  "include": ["src", "prisma", "src/middleware"],
   "exclude": ["node_modules"]
 }

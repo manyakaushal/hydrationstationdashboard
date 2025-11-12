@@ -15,6 +15,7 @@ app.use(express.json());
 app.get('/health', (req, res) => {
     res.json({ok: true, message: "Backend is working"});
 })
+
 app.use('/api/auth', authRouter);
 
 
