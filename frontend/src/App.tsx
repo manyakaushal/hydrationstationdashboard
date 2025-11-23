@@ -3,7 +3,6 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Landing from './pages/landing'
-import Signup from './pages/signup'
 import Login from './pages/login';
 import ProtectedRoute from './components/ProtectedRoute';
 import Dashboard from './pages/dashboard';
@@ -14,7 +13,6 @@ function App() {
       <Routes>
         <Route path='/' element={<Landing />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/signup' element={<Signup />} />
         <Route 
           path='/dashboard'
           element={
