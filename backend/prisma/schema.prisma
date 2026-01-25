@@ -14,3 +14,11 @@ model User {
   password  String
   createdAt DateTime @default(now())
 }
+
+model HydrationData {
+  id        Int      @id @default(autoincrement())
+  value     Float     //this could be water leve, flow rate, or volume
+  unit      String   @default("ml")
+  timestamp DateTime @default(now())
+
+}
