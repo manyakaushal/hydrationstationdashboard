@@ -1,10 +1,28 @@
-import express from "express";
+import {Router} from "express";
 import { authenticateToken } from '../middleware/authMiddleWare';
+import prisma from "../client";
 
-const router = express.Router();
+const router = Router();
 
-router.get("/data", authenticateToken, (req, res) => {
-    res.json({ message: "This is the dashboard page.", user: req.user});
+router.use(authenticateToken);
+
+router.get("/", authenticateToken, async (req, res) => {
+    try{
+        const userId = req.user.id;
+
+        const hydrationStationCount = await prisma.hydrationStation.count({
+            where: {
+                userId: userId,
+            },
+        })
+
+        return res.json({
+            hydrationStationCount,
+        })
+    }
+    catch (err) {
+
+    }
 });
 
 export default router;

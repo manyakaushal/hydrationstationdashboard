@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt'
-import prisma from '../src/client'
+import { PrismaClient } from '../src/generated/prisma';
 
-
+const prisma = new PrismaClient();
 async function main(){
     const hashedPassword = await bcrypt.hash('user1@HydrationStation', 10);
 
@@ -12,9 +12,29 @@ async function main(){
         },
     })
 
+    await prisma.hydrationStation.createMany({
+        data: [
+            {
+                userId: user.id,
+                bottlesWashed: 120,
+                lastCleaningCycleAt: new Date(),
+            },
+            {
+                userId: user.id,
+                bottlesWashed: 60,
+                lastCleaningCycleAt: new Date(Date.now() - 1000*60*60*24),
+            },
+        ],
+    });
+    console.log("Hydration Stations seeded");
+
 }
 
-main().then(()=> {
-    console.log('User Seeded');
-    process.exit(0);
-});
+main()
+    .catch(e => {
+        console.error(e);
+        process.exit(1);
+    })
+    .finally(async() => {
+        await prisma.$disconnect();
+    });

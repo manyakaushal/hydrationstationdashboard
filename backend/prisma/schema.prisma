@@ -13,4 +13,41 @@ model User {
   email     String   @unique
   password  String
   createdAt DateTime @default(now())
+
+  station HydrationStation[]
+}
+
+model HydrationStation {
+  id     Int  @id @default(autoincrement())
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  bottlesWashed       Int
+  lastCleaningCycleAt DateTime?
+  powerUsageHistory   PowerUsageHistory[]
+  waterUsageHistory   WaterUsageHistory[]
+}
+
+model PowerUsageHistory {
+  id        Int              @id @default(autoincrement())
+  stationId Int
+  station   HydrationStation @relation(fields: [stationId], references: [id])
+  createdAt DateTime         @default(now())
+
+  measuredAt DateTime
+  powerKw    Float
+
+  @@index([measuredAt, powerKw])
+}
+
+model WaterUsageHistory {
+  id        Int              @id @default(autoincrement())
+  stationId Int
+  station   HydrationStation @relation(fields: [stationId], references: [id])
+  createdAt DateTime         @default(now())
+
+  measuredAt DateTime
+  waterFlOz  Float
+
+  @@index([measuredAt, waterFlOz])
 }
