@@ -10,18 +10,28 @@ router.get("/", authenticateToken, async (req, res) => {
     try{
         const userId = req.user.id;
 
-        const hydrationStationCount = await prisma.hydrationStation.count({
-            where: {
-                userId: userId,
-            },
+        const hydrationStation = await prisma.hydrationStation.findFirst({
+            where:{
+                userId : userId,
+            }
         })
 
+        const bottlesWashed = hydrationStation?.bottlesWashed;
+        const lastCleaningCycleAt = hydrationStation?.lastCleaningCycleAt;
+
+        // const hydrationStationCount = await prisma.hydrationStation.count({
+        //     where: {
+        //         userId: userId,
+        //     },
+        // })
+
         return res.json({
-            hydrationStationCount,
+            bottlesWashed,
+            lastCleaningCycleAt
         })
     }
     catch (err) {
-
+        res.status(500).json({error: "Fetching Data Failed"});
     }
 });
 

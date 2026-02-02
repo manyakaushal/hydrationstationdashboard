@@ -1,6 +1,5 @@
 import React from 'react'
 import LoginButton from '../assets/LoginButton'
-import SignupButton from '../assets/SignupButton'
 
 export default function Landing(){
     return (
