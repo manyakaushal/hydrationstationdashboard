@@ -1,30 +1,33 @@
 import nodemailer from 'nodemailer';
-import dotenv from 'dotenv';
 
-dotenv.config(); // make sure this is first
-
-export async function sendEmail(to: string, subject: string, text: string) {
+export async function sendEmail(
+  to: string,
+  subject: string,
+  text: string,
+  html: string
+) {
   try {
     const transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: Number(process.env.EMAIL_PORT),
-      secure: false, // TLS not required for Ethereal
+      host: 'smtp.ethereal.email',
+      port: 587,
+      secure: false,
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        user: 'triston.oberbrunner95@ethereal.email',
+        pass: 'qJwwVX4fwe8Nuue9sN',
       },
+      family: 4, // force IPv4
     });
 
     const info = await transporter.sendMail({
-      from: `"Demo Service" <${process.env.EMAIL_USER}>`,
+      from: `"Hydration Station" <triston.oberbrunner95@ethereal.email>`,
       to,
       subject,
       text,
+      html,
     });
 
-    console.log('Email sent! Preview URL:', nodemailer.getTestMessageUrl(info));
+    console.log('✅ Email sent! Preview URL:', nodemailer.getTestMessageUrl(info));
   } catch (err) {
-    console.error('Error sending email:', err);
+    console.error('❌ Error sending email:', err);
   }
 }
-
