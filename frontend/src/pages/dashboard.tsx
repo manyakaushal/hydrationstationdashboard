@@ -2,6 +2,8 @@ import React from "react";
 import LogoutButton from "../assets/LogoutButton";
 import DataCard from "../assets/DataCard";
 import { useEffect } from "react";
+import { RechartsDevtools } from "@recharts/devtools";
+import { LineChart, Line, XAxis, ResponsiveContainer, CartesianGrid, YAxis, Legend, Tooltip} from "recharts";
 
 type HydrationData = {
     bottlesWashed: number;
@@ -26,7 +28,10 @@ export default function Dashboard(){
     const chartData = [
         {month: "Jan", powerLevel: 80},
         {month: "Feb", powerLevel: 75},
-        {month: "Mar", powerLevel: 90},    
+        {month: "Mar", powerLevel: 90},
+        {month: "Apr", powerLevel: 85},
+        {month: "May", powerLevel: 70},
+        {month: "Jun", powerLevel: 95},    
     ]
     return(
         <div className='flex flex-col items-left justify-top min-h-screen bg-[#011C27]'>
@@ -42,8 +47,18 @@ export default function Dashboard(){
                 <h2 className="text-white text-xl mb-4">
                 Power Level For Hydration Station 1
                 </h2>
-                <div className="h-72 w-full flex items-center justify-center text-gray-400">
-                {/* temp empty text */}
+                <div className="h-72 w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={chartData}>
+                <CartesianGrid stroke="#aaa" strokeDasharray="5 5"/>
+                <Line dataKey="powerLevel" stroke="purple" strokeWidth={2} name="Power Level"/>
+                <XAxis dataKey="month" />
+                <YAxis width="auto" label={{ value: 'Power Level', angle: -90, position: 'insideLeft', fill: 'white' }} />
+                <Legend align="right"/>
+                <Tooltip/>
+                <RechartsDevtools />
+                </LineChart>
+                </ResponsiveContainer>
                 </div>
             </div>
             {/* Graph 2 Card */}
