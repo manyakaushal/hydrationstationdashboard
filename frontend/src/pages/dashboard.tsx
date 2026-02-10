@@ -32,6 +32,14 @@ export default function Dashboard(){
         {month: "Apr", powerLevel: 85},
         {month: "May", powerLevel: 70},
         {month: "Jun", powerLevel: 95},    
+    ] 
+    const chartData2 = [
+        {month: "Jan", waterUsed: 500},
+        {month: "Feb", waterUsed: 450},
+        {month: "Mar", waterUsed: 600},
+        {month: "Apr", waterUsed: 550},
+        {month: "May", waterUsed: 400},
+        {month: "Jun", waterUsed: 650},    
     ]
     return(
         <div className='flex flex-col items-left justify-top min-h-screen bg-[#011C27]'>
@@ -66,10 +74,20 @@ export default function Dashboard(){
                 <h2 className="text-white text-xl mb-4">
                 Water Used For Hydration Station 1
                 </h2>
-                <div className="h-72 w-full flex items-center justify-center text-gray-400">
-                {/* temp empty text */}
-                </div>
+                <div className="h-72 w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={chartData2}>
+                <CartesianGrid stroke="#000"/>
+                <Line dataKey="waterUsed" stroke="cyan" strokeWidth={5} name="Water Used (L)"/>
+                <XAxis dataKey="month" />
+                <YAxis width="auto" label={{ value: 'Water Used (L)', angle: -90, position: 'insideLeft', fill: 'white' }} />
+                <Legend align="right"/>
+                <Tooltip/>
+                <RechartsDevtools />
+                </LineChart>
+                </ResponsiveContainer>
             </div>
+        </div>
         </div>
         </div>
     )
