@@ -5,17 +5,101 @@ import { useEffect } from "react";
 import { RechartsDevtools } from "@recharts/devtools";
 import { LineChart, Line, XAxis, ResponsiveContainer, CartesianGrid, YAxis, Legend, Tooltip} from "recharts";
 
+
 type HydrationData = {
     bottlesWashed: number;
     lastClearningCycleAt: Date;
 }
-
+type DailyData1 = {date: string, powerLevel: number};
+type DailyData2 = {date: string, waterUsed: number};
 type TimeRange = "days" | "weeks" | "months";
+
+const chartDatadays1 = [
+    {date: "2026-02-02", powerLevel: 80},
+    {date: "2026-02-03", powerLevel: 75},
+    {date: "2026-02-04", powerLevel: 90},
+    {date: "2026-02-05", powerLevel: 85},
+    {date: "2026-02-06", powerLevel: 70},
+    {date: "2026-02-07", powerLevel: 95},
+    {date: "2026-02-08", powerLevel: 82},
+    {date: "2026-02-09", powerLevel: 88},
+    {date: "2026-03-10", powerLevel: 78},
+    {date: "2026-03-11", powerLevel: 92},
+    {date: "2026-03-12", powerLevel: 80},
+    {date: "2026-03-13", powerLevel: 85},
+    {date: "2026-03-14", powerLevel: 90},
+    {date: "2026-03-15", powerLevel: 78},
+    {date: "2026-03-16", powerLevel: 88},
+    {date: "2026-03-17", powerLevel: 95},
+    {date: "2026-03-18", powerLevel: 80},
+    {date: "2026-03-19", powerLevel: 85}
+];
+const chartDatadays2 = [
+    {date: "2026-02-02", waterUsed: 85},
+    {date: "2026-02-03", waterUsed: 70},
+    {date: "2026-02-04", waterUsed: 95},
+    {date: "2026-02-05", waterUsed: 80},
+    {date: "2026-02-06", waterUsed: 75},
+    {date: "2026-02-07", waterUsed: 90},
+    {date: "2026-02-08", waterUsed: 82}
+];
+
+function aggregateDataByRange <T extends {date: string} > (
+    data: T[],
+    range: TimeRange,
+    valueKey: keyof T,
+    mode: "sum" | "average" = "sum"
+){
+    if (range === "days"){
+        return [...data].sort((a,b) => a.date.localeCompare(b.date)).map((row) => ({...row, label: row.date}));
+    }
+    const keyFn = range === "weeks" ? startOfweekKey : monthKey;
+    const totals = new Map<string, {sum: number, count: number}>();
+        for (const row of data){
+            const bucket = keyFn(row.date);
+            const value = Number(row[valueKey]);
+            const existing = totals.get(bucket) ?? {sum: 0, count: 0};
+            totals.set(bucket, {sum: existing.sum + value, count: existing.count + 1});
+        }
+    return Array.from(totals.entries()).sort((a,b) => a[0].localeCompare(b[0])).map(([bucket, total]) => ({
+        label: bucket,
+        [valueKey]: mode === "sum" ? total.sum : Number((total.sum / total.count).toFixed(1)),
+        })) as Array<{label: string} & Record<string, number>>;
+    }
+
+        function startOfweekKey(dateISO: string){
+        const d = new Date(dateISO);
+        const day = (d.getUTCDay() + 6) % 7;
+        d.setUTCDate(d.getUTCDate() - day);
+        return d.toISOString().slice(0,10);
+    }
+
+    function monthKey (dateISO: string){
+        return dateISO.slice(0,7);
+    }
+
 export default function Dashboard(){
     const token = localStorage.getItem("token");
     const [selectedGraph1, setSelectedGraph1] = React.useState<TimeRange>("days");
     const [selectedGraph2, setSelectedGraph2] = React.useState<TimeRange>("days");
 
+    const dataToDisplay1 = React.useMemo(() => {
+        return aggregateDataByRange(chartDatadays1, selectedGraph1, "powerLevel", "average");
+    }, [selectedGraph1]);
+
+    const dataToDisplay2 = React.useMemo(() => {
+        return aggregateDataByRange(chartDatadays2, selectedGraph2, "waterUsed", "sum");
+    }, [selectedGraph2]);
+    
+    const displayTooLil1 = !hasEnoughData(selectedGraph1, dataToDisplay1.length);
+    const displayTooLil2 = !hasEnoughData(selectedGraph2, dataToDisplay2.length);
+
+    function hasEnoughData(range: TimeRange, dataCount: number){
+        if (range === "days"){return true;}
+        if (range === "weeks"){return dataCount >=2;}
+        if (range === "months"){return dataCount >= 2;}
+        return true;
+    }
     // useEffect(() => {
     //     const loadDashboardData = async() => {
     //         const res = await fetch("http://localhost:4000/api/dashboard", {
@@ -28,65 +112,7 @@ export default function Dashboard(){
     //     }
     //     loadDashboardData();
     // })
-    const chartDatadays1 = [
-        {label: "Day 1", powerLevel: 80},
-        {label: "Day 2", powerLevel: 75},
-        {label: "Day 3", powerLevel: 90},
-        {label: "Day 4", powerLevel: 85},
-        {label: "Day 5", powerLevel: 70},
-        {label: "Day 6", powerLevel: 95},
-        {label: "Day 7", powerLevel: 82}
-    ]
-    const chartDataweeks1 = [
-        {label: "Week 1", powerLevel: 80},
-        {label: "Week 2", powerLevel: 75},
-        {label: "Week 3", powerLevel: 90},
-        {label: "Week 4", powerLevel: 85},
-    ]
-    const chartDatamonths1 = [
-        {label: "Jan", powerLevel: 80},
-        {label: "Feb", powerLevel: 75},
-        {label: "Mar", powerLevel: 90},
-        {label: "Apr", powerLevel: 85},
-        {label: "May", powerLevel: 70},
-        {label: "Jun", powerLevel: 95},    
-    ] 
-    const chartDatadays2 = [
-        {label: "Day 1", waterUsed: 85},
-        {label: "Day 2", waterUsed: 70},
-        {label: "Day 3", waterUsed: 95},
-        {label: "Day 4", waterUsed: 80},
-        {label: "Day 5", waterUsed: 75},
-        {label: "Day 6", waterUsed: 90},
-        {label: "Day 7", waterUsed: 82}
-    ]
-    const chartDataweeks2 = [
-        {label: "Week 1", waterUsed: 85},
-        {label: "Week 2", waterUsed: 70},
-        {label: "Week 3", waterUsed: 95},
-        {label: "Week 4", waterUsed: 80},
-    ]
-    const chartDatamonths2 = [
-        {label: "Jan", waterUsed: 500},
-        {label: "Feb", waterUsed: 450},
-        {label: "Mar", waterUsed: 600},
-        {label: "Apr", waterUsed: 550},
-        {label: "May", waterUsed: 400},
-        {label: "Jun", waterUsed: 650},    
-    ]
-    const dataToDisplay1 = 
-        selectedGraph1 === "days"
-        ? chartDatadays1
-        : selectedGraph1 === "weeks"
-        ? chartDataweeks1
-        : chartDatamonths1;
 
-    const dataToDisplay2 =
-        selectedGraph2 === "days"
-        ? chartDatadays2
-        : selectedGraph2 === "weeks"
-        ? chartDataweeks2
-        : chartDatamonths2;
     return(
         <div className='flex flex-col items-left justify-top min-h-screen bg-[#011C27]'>
             {/* HEADER */}
@@ -105,11 +131,18 @@ export default function Dashboard(){
                 value={selectedGraph1}
                 onChange={(e) => setSelectedGraph1(e.target.value as TimeRange)}
             >
-                <option value="days">Last 7 Days</option>
-                <option value="weeks">Last 4 Weeks</option>
-                <option value="months">Last 6 Months</option>
+                <option value="days">Days</option>
+                <option value="weeks">Weeks</option>
+                <option value="months">Months</option>
             </select>
-                <div className="h-72 w-full">
+                <div className="h-72 w-full relative">
+                    {displayTooLil1 && (
+                    <div className="absolute inset-0 z-10 flex items-center justify-center">
+                        <div className="bg-black/60 text-white px-4 py-2 rounded-lg">
+                        Not enough data to view {selectedGraph1} yet. Please check back later.
+                        </div>
+                        </div>
+                    )}
                 <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={dataToDisplay1}>
                 <CartesianGrid stroke="#aaa" strokeDasharray="5 5"/>
@@ -132,11 +165,19 @@ export default function Dashboard(){
                 value={selectedGraph2}
                 onChange={(e) => setSelectedGraph2(e.target.value as TimeRange)}
             >
-                <option value="days">Last 7 Days</option>
-                <option value="weeks">Last 4 Weeks</option>
-                <option value="months">Last 6 Months</option>
+                <option value="days">Days</option>
+                <option value="weeks">Weeks</option>
+                <option value="months">Months</option>
             </select>
-                <div className="h-72 w-full">
+                <div className="h-72 w-full relative">
+                    {displayTooLil2 && (
+                    <div className="absolute inset-0 z-10 flex items-center justify-center">
+                        <div className="bg-black/60 text-white px-4 py-2 rounded-lg">
+                        Not enough data to view {selectedGraph2} yet. Please check back later.
+                        </div>
+                        </div>
+                    )
+                    }
                 <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={dataToDisplay2}>
                 <CartesianGrid stroke="#000"/>
