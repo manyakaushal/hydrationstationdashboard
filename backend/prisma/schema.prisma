@@ -26,6 +26,7 @@ model HydrationStation {
   lastCleaningCycleAt DateTime?
   powerUsageHistory   PowerUsageHistory[]
   waterUsageHistory   WaterUsageHistory[]
+  sensorReadings      SensorReadings[]
 }
 
 model PowerUsageHistory {
@@ -34,8 +35,8 @@ model PowerUsageHistory {
   station   HydrationStation @relation(fields: [stationId], references: [id])
   createdAt DateTime         @default(now())
 
-  measuredAt DateTime
-  powerKw    Float
+  measuredAt DateTime // Obtained from the timestamp of the request sent to the server (x-axis)
+  powerKw    Float // Calculated from sensor readings (y-axis)
 
   @@index([measuredAt, powerKw])
 }
@@ -46,8 +47,20 @@ model WaterUsageHistory {
   station   HydrationStation @relation(fields: [stationId], references: [id])
   createdAt DateTime         @default(now())
 
-  measuredAt DateTime
-  waterFlOz  Float
+  measuredAt DateTime // Obtained from the timestamp of the request sent to the server (x-axis)
+  waterFlOz  Float // Calculated from sensor readings (y-axis)
 
   @@index([measuredAt, waterFlOz])
+}
+
+model SensorReadings {
+  id        Int              @id @default(autoincrement())
+  stationId Int
+  station   HydrationStation @relation(fields: [stationId], references: [id])
+  createdAt DateTime         @default(now())
+
+  measuredAt         DateTime // Obtained from the timestamp of the request sent to the server
+  noOfCleaningCycles Int
+  doneCleaning       Boolean
+  soapWeight         Float
 }
