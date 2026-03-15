@@ -37,7 +37,7 @@ export default function Login(){
         <div className='flex flex-col items-center justify-center min-h-screen bg-[#011C27]'>
             <h1 className='text-[150px] text-white font-times'>Hydration Station <span className='text-[#8B8383]'>Login</span></h1>
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}> 
                 <input
                     type="email"
                     placeholder="Email"

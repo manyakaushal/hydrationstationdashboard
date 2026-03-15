@@ -12,7 +12,9 @@ router.get("/", authenticateToken, async (req, res) => {
 
         // Find the station owned by the logged-in user
         const hydrationStation = await prisma.hydrationStation.findFirst({
-            where: { userId: userId }
+            where: {
+                userId: userId,
+            }
         });
 
         if (!hydrationStation) {
@@ -45,10 +47,11 @@ router.get("/", authenticateToken, async (req, res) => {
         return res.json({
             bottlesWashed: hydrationStation.bottlesWashed,
             lastCleaningCycleAt: hydrationStation.lastCleaningCycleAt,
-            powerHistory,
-            waterHistory
+            powerHistory, // This replaces Dom's purple graph mock data
+            waterHistory  // This replaces Dom's cyan graph mock data
         });
-    } catch (err) {
+    }
+    catch (err) {
         console.error(err);
         res.status(500).json({ error: "Fetching Data Failed" });
     }

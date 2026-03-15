@@ -13,12 +13,12 @@ function App() {
       <Routes>
         <Route path='/' element={<Landing />} />
         <Route path='/login' element={<Login />} />
-        <Route 
+        <Route
           path='/dashboard'
           element={
-            //<ProtectedRoute>
-              <Dashboard />
-            //</ProtectedRoute>  //Removed protection temporarily
+            // <ProtectedRoute>
+            <Dashboard />
+            // </ProtectedRoute>
           }
         />
       </Routes>
