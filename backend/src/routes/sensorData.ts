@@ -1,7 +1,7 @@
 import { Router } from "express";
 //import prisma from "../client";
 import { Request, Response, NextFunction } from "express";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "../generated/prisma";
 
 /*
     POWER will be added as a constant value to calculate the power usage (kwh) per day.
