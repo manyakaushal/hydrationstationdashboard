@@ -95,6 +95,16 @@ function startOfweekKey(dateISO: string) {
 
 function monthKey(dateISO: string) { return dateISO.slice(0, 7); }
 
+function formatMonthLabel(month: string) {
+    const [year, monthNumber] = month.split("-");
+    const date = new Date(Number(year), Number(monthNumber) - 1, 1);
+
+    return date.toLocaleString("en-US", {
+        month: "long",
+        year: "numeric",
+    });
+}
+
 function keepLast12Months<T extends { date: string }>(data: T[]) {
     if (!data || data.length === 0) return [];
 
@@ -294,7 +304,7 @@ const cappedWaterData = useMemo(() => {
                                         >
                                             {availablePowerMonths.map((month) => (
                                                 <option key={month} value={month}>
-                                                    {month}
+                                                    {formatMonthLabel(month)}
                                                 </option>
                                             ))}
                                         </select>
@@ -352,7 +362,7 @@ const cappedWaterData = useMemo(() => {
                                         >
                                             {availableWaterMonths.map((month) => (
                                                 <option key={month} value={month}>
-                                                    {month}
+                                                    {formatMonthLabel(month)}
                                                 </option>
                                             ))}
                                         </select>

@@ -40,10 +40,7 @@ router.get("/", authenticateToken, async (req, res) => {
         // IMPORTANT: Format the DB 'timestamp' into a string 'date' (YYYY-MM-DD)
         // This allows Dom's aggregateDataByRange function to group them properly.
         const powerHistory = powerData.map(item => ({
-            date: new Date(item.createdAt).toLocaleDateString(undefined, {
-                day: "numeric",
-                month: "short"
-            }),
+            date: item.createdAt.toISOString().split('T')[0],
             powerLevel: item.powerKw
         }));
 
