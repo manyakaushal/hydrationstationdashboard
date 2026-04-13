@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
 import LogoutButton from "../assets/LogoutButton";
-import DataCard from "../assets/DataCard";
 import { RechartsDevtools } from "@recharts/devtools";
 import { LineChart, Line, XAxis, ResponsiveContainer, CartesianGrid, YAxis, Legend, Tooltip } from "recharts";
 
@@ -250,7 +249,9 @@ const cappedWaterData = useMemo(() => {
                             <div className="relative">
                                 <h2 className="text-2xl font-semibold text-white">Bottles Washed</h2>
                                 <div className="mt-5">
-                                    {dashboardData && <DataCard text="Bottles Washed" data={dashboardData.bottlesWashed} />}
+                                    <p className="text-5xl font-semibold text-cyan-50 sm:text-6xl">
+                                        {dashboardData?.bottlesWashed ?? "--"}
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -260,7 +261,11 @@ const cappedWaterData = useMemo(() => {
                             <div className="relative">
                                 <h2 className="text-2xl font-semibold text-white">Last cleaning cycle</h2>
                                 <div className="mt-5">
-                                    {dashboardData && <DataCard text="Last Cleaning" data={new Date(dashboardData.lastCleaningCycleAt).toLocaleDateString()} />}
+                                    <p className="text-4xl font-semibold text-emerald-50 sm:text-5xl">
+                                        {dashboardData?.lastCleaningCycleAt
+                                            ? new Date(dashboardData.lastCleaningCycleAt).toLocaleDateString()
+                                            : "--"}
+                                    </p>
                                 </div>
                             </div>
                         </div>
