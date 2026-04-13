@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -34,10 +33,12 @@ model PowerUsageHistory {
   stationId Int
   station   HydrationStation @relation(fields: [stationId], references: [id])
   createdAt DateTime         @default(now())
+  day       DateTime? // To record once a day
 
   measuredAt DateTime // Obtained from the timestamp of the request sent to the server (x-axis)
   powerKw    Float // Calculated from sensor readings (y-axis)
 
+  @@unique([stationId, day]) // To record once a day
   @@index([measuredAt, powerKw])
 }
 
@@ -46,10 +47,12 @@ model WaterUsageHistory {
   stationId Int
   station   HydrationStation @relation(fields: [stationId], references: [id])
   createdAt DateTime         @default(now())
+  day       DateTime? // To record once a day
 
   measuredAt DateTime // Obtained from the timestamp of the request sent to the server (x-axis)
   waterFlOz  Float // Calculated from sensor readings (y-axis)
 
+  @@unique([stationId, day]) // To record once a day
   @@index([measuredAt, waterFlOz])
 }
 

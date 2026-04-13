@@ -23,24 +23,32 @@ router.get("/", authenticateToken, async (req, res) => {
 
         // Fetch the historical rows that Dom's graphs need
         const powerData = await prisma.powerUsageHistory.findMany({
-            where: { stationId: hydrationStation.id },
-            orderBy: { timestamp: 'asc' }
+            where: { stationId: 1 }, // The station id is hard-coded
+            orderBy: { createdAt: 'asc' },
+            select: {
+                createdAt: true,
+                powerKw: true,
+            }
         });
+
 
         const waterData = await prisma.waterUsageHistory.findMany({
             where: { stationId: hydrationStation.id },
-            orderBy: { timestamp: 'asc' }
+            orderBy: { createdAt: 'asc' }
         });
 
         // IMPORTANT: Format the DB 'timestamp' into a string 'date' (YYYY-MM-DD)
         // This allows Dom's aggregateDataByRange function to group them properly.
-        const powerHistory = powerData.map(d => ({
-            date: d.timestamp.toISOString().split('T')[0],
-            powerLevel: d.powerKw // Adjust field name if Ahmed's schema differs
+        const powerHistory = powerData.map(item => ({
+            date: new Date(item.createdAt).toLocaleDateString(undefined, {
+                day: "numeric",
+                month: "short"
+            }),
+            powerLevel: item.powerKw
         }));
 
         const waterHistory = waterData.map(d => ({
-            date: d.timestamp.toISOString().split('T')[0],
+            date: d.createdAt.toISOString().split('T')[0],
             waterUsed: d.waterFlOz // Adjust field name if Ahmed's schema differs
         }));
 
