@@ -1,7 +1,7 @@
 import { Router } from "express";
-//import prisma from "../client";
+import prisma from "../client";
 import { Request, Response, NextFunction } from "express";
-import { PrismaClient } from "../generated/prisma";
+// import { PrismaClient } from "../generated/prisma";
 
 /*
     POWER will be added as a constant value to calculate the energy usage (kwh) per day.
@@ -10,7 +10,6 @@ const POWERPERCYCLE = 5;
 const WATERPERCYCLE = 5;
 
 const router = Router();
-const prisma = new PrismaClient();
 
 
 const authenticateDevice = (req: Request, res: Response, next: NextFunction) => {

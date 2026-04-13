@@ -1,7 +1,12 @@
 import bcrypt from 'bcrypt'
-import { PrismaClient } from '../src/generated/prisma';
+import prisma from "../src/client";
 
-const prisma = new PrismaClient();
+
+function getRandomInt(min: number,  max: number)
+{
+    return Math.floor(Math.random()*(max+min-1)) + min;
+}
+
 async function main(){
     const hashedPassword = await bcrypt.hash('user1@HydrationStation', 10);
 
@@ -11,6 +16,7 @@ async function main(){
             password: hashedPassword,
         },
     })
+
 
     await prisma.hydrationStation.createMany({
         data: [
@@ -26,7 +32,58 @@ async function main(){
             },
         ],
     });
+
+    for (let i = 0; i < 60; i++)
+    {
+        const day = new Date();
+        day.setHours(0,0,0);
+        day.setDate(day.getDate()-i);
+
+        await prisma.powerUsageHistory.upsert({
+            where: {
+                stationId_day: {
+                    stationId: 1,
+                    day: day,
+                },
+            },
+            update: {
+                powerKw: getRandomInt(0,300),
+                measuredAt: day,
+                createdAt: day,
+            },
+            create: {
+                stationId: 1,
+                day: day,
+                measuredAt: day,
+                createdAt: day,
+                powerKw: getRandomInt(0,300),
+            },
+        });
+
+    }
+    // const powerHistory = [];
+
+    // for (let i = 0; i < 60; i++)
+    // {
+    //     if (i < 30)
+    //     {
+    //         powerHistory.push({
+    //             date: `Apr ${i+1}`,
+    //             powerLevel: getRandomInt(0,300),
+    //         })
+    //     }else{
+    //         powerHistory.push({
+    //             date: `May ${i+1}`,
+    //             powerLevel: getRandomInt(0,300),
+    //         })
+    //     }
+    // }
+
+
+
     console.log("Hydration Stations seeded");
+
+
 
 }
 
