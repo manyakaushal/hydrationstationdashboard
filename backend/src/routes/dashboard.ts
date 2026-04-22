@@ -33,8 +33,12 @@ router.get("/", authenticateToken, async (req, res) => {
 
 
         const waterData = await prisma.waterUsageHistory.findMany({
-            where: { stationId: hydrationStation.id },
-            orderBy: { createdAt: 'asc' }
+            where: { stationId: 1 }, // The station id is hard-coded
+            orderBy: { createdAt: 'asc' },
+            select: {
+                createdAt: true,
+                waterFlOz: true,
+            }
         });
 
         // IMPORTANT: Format the DB 'timestamp' into a string 'date' (YYYY-MM-DD)
