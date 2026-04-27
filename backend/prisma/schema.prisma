@@ -23,6 +23,7 @@ model HydrationStation {
 
   bottlesWashed       Int
   lastCleaningCycleAt DateTime?
+  soapWeight          Float               @default(0)
   powerUsageHistory   PowerUsageHistory[]
   waterUsageHistory   WaterUsageHistory[]
   sensorReadings      SensorReadings[]

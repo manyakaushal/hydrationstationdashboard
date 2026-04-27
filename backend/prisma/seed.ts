@@ -10,28 +10,28 @@ function getRandomInt(min: number,  max: number)
 async function main(){
     const hashedPassword = await bcrypt.hash('user1@HydrationStation', 10);
 
-    const user = await prisma.user.create({
-        data: {
-            email: 'user@example.com',
-            password: hashedPassword,
-        },
-    })
+    // const user = await prisma.user.create({
+    //     data: {
+    //         email: 'user@example.com',
+    //         password: hashedPassword,
+    //     },
+    // })
 
 
-    await prisma.hydrationStation.createMany({
-        data: [
-            {
-                userId: user.id,
-                bottlesWashed: 120,
-                lastCleaningCycleAt: new Date(),
-            },
-            {
-                userId: user.id,
-                bottlesWashed: 60,
-                lastCleaningCycleAt: new Date(Date.now() - 1000*60*60*24),
-            },
-        ],
-    });
+    // await prisma.hydrationStation.createMany({
+    //     data: [
+    //         {
+    //             userId: user.id,
+    //             bottlesWashed: 120,
+    //             lastCleaningCycleAt: new Date(),
+    //         },
+    //         {
+    //             userId: user.id,
+    //             bottlesWashed: 60,
+    //             lastCleaningCycleAt: new Date(Date.now() - 1000*60*60*24),
+    //         },
+    //     ],
+    // });
 
     for (let i = 0; i < 60; i++)
     {
@@ -39,7 +39,7 @@ async function main(){
         day.setHours(0,0,0);
         day.setDate(day.getDate()-i);
 
-        await prisma.powerUsageHistory.upsert({
+        await prisma.waterUsageHistory.upsert({
             where: {
                 stationId_day: {
                     stationId: 1,
@@ -47,7 +47,7 @@ async function main(){
                 },
             },
             update: {
-                powerKw: getRandomInt(0,300),
+                waterFlOz: getRandomInt(0,300),
                 measuredAt: day,
                 createdAt: day,
             },
@@ -56,7 +56,7 @@ async function main(){
                 day: day,
                 measuredAt: day,
                 createdAt: day,
-                powerKw: getRandomInt(0,300),
+                waterFlOz: getRandomInt(0,300),
             },
         });
 
