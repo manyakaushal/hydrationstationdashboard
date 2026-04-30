@@ -1,0 +1,26 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.authenticateToken = authenticateToken;
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
+    if (!token)
+        return res.status(401).json({ message: "Unauthorized" });
+    if (!process.env.JWT_SECRET) {
+        console.error("JWT_SECRET is not set in environment variables.");
+        return res.status(500).json({ message: "Server misconfiguration" });
+    }
+    try {
+        const user = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
+        req.user = user;
+        next();
+    }
+    catch (err) {
+        return res.status(403).json({ message: "Invalid token" });
+    }
+}
+//# sourceMappingURL=authMiddleWare.js.map

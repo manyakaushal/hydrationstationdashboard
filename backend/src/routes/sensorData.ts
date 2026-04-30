@@ -26,8 +26,8 @@ const authenticateDevice = (req: Request, res: Response, next: NextFunction) => 
 
 router.post("/", authenticateDevice, async (req, res) => { // Request Received every cleaning cycle
     try {
-        const { cleaningOrFilling, soapWeight } = req.body; // true if cleaning cycle, false if filling cycle
-        if (cleaningOrFilling == null || soapWeight == null) {
+        const { cleaningOrFilling, /*soapWeight*/ } = req.body; // true if cleaning cycle, false if filling cycle
+        if (cleaningOrFilling == null /*|| soapWeight == null */ ) {
             return res.status(400).json({ error: "Missing Sensor Values" });
         }
 
@@ -70,7 +70,7 @@ router.post("/", authenticateDevice, async (req, res) => { // Request Received e
                 id: 1,
             },
             data: {
-                soapWeight: soapWeight,
+                // soapWeight: soapWeight,
             },
         })
 
