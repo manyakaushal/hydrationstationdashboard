@@ -153,7 +153,7 @@ export default function Dashboard() {
     useEffect(() => {
         const loadDashboardData = async () => {
             try {
-                const res = await fetch("http://localhost:4000/api/dashboard", {
+                const res = await fetch(`${process.env.REACT_APP_API_URL}/api/dashboard`, {
                     headers: { Authorization: `Bearer: ${token}` },
                 });
                 const data = await res.json();
