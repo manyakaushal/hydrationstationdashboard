@@ -1,12 +1,11 @@
 # Hydration Station Full-Stack Website
 
 ## Live Website 
-- URL: https://main.d30o46gfw7s3wg.amplifyapp.com
-- Alternative link: https://main.d1upgps64vlhwt.amplifyapp.com/
+- Website link: https://visited-rebecca-paintings-allows.trycloudflare.com/
   
 **Login**:
-- Email: guy
-- Password: 123
+- Email: demo@hydration.test
+- Password: demo1234
 
 ## Overview
 The Hydration Station website is a full-stack application that tracks and displays data from hydration stations, such as the number of bottles cleaned, soap levels, filter conditions, and the number of bottles filled. This data is gathered from sensor readings and displayed on a dashboard for users to monitor hydration station metrics. 
