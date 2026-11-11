@@ -8,9 +8,10 @@
 - Password: demo1234
 
 ## Main Usable files
+Run these two files on separate terminals to open the web port.
 - backend
 - frontend
-- Run these two files on separate terminals to open the web port.
+
 
 ## Overview
 The Hydration Station website is a full-stack application that tracks and displays data from hydration stations, such as the number of bottles cleaned, soap levels, filter conditions, and the number of bottles filled. This data is gathered from sensor readings and displayed on a dashboard for users to monitor hydration station metrics. 
